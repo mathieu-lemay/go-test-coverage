@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bytes"
+	"time"
 
 	"github.com/rs/zerolog"
 )
@@ -13,7 +14,9 @@ var (
 )
 
 func Init() { // coverage-ignore
-	L = zerolog.New(&buffer).With().Logger()
+	zerolog.DurationFieldFormat = zerolog.DurationFormatString
+	w := zerolog.ConsoleWriter{Out: &buffer, TimeFormat: time.DateTime}
+	L = zerolog.New(w).With().Timestamp().Logger()
 }
 
 func Destruct() {
