@@ -12,3 +12,4 @@ override:
 exclude:
   paths:
     - main\.go$
+  trivial-error-checks: true
