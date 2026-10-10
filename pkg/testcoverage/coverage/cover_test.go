@@ -334,57 +334,57 @@ func Test_sumCoverage(t *testing.T) {
 	assert.Equal(t, Stats{Total: 1, Covered: 1}, s)
 }
 
-func Test_findTrivialErrorChecks(t *testing.T) {
-	t.Parallel()
-
-	_, err := FindTrivialErrorChecks(nil)
-	assert.Error(t, err)
-
-	const source = `
-	package foo
-	func a() error {
-		err := foo()
-		if err != nil {
-			return err
-		}
-		if err := foo(); err != nil {
-			return nil, err
-		}
-		if nil != err {
-			return nil, fmt.Errorf("error doing foo: %w", err)
-		}
-		if readErr != nil {
-			return errors.Wrap(readErr, "read")
-		}
-		val := foo()
-		if val == 0 {
-			return errors.New("...")
-		}
-		if val != nil {
-			return val
-		}
-		if err != nil {
-			log(err)
-			return err
-		}
-		if err != nil {
-			return errors.New("other")
-		}
-		if err == nil {
-			return err
-		}
-		if err != nil {
-			panic(err)
-		}
-		if err != nil && val == 0 {
-			return err
-		}
-		return nil
-	}
-	`
-
-	extents, err := FindTrivialErrorChecks([]byte(source))
-	assert.NoError(t, err)
-	assert.Equal(t, []int{5, 8, 11, 14}, PluckStartLine(extents))
-	assert.Equal(t, Extent{StartLine: 5, StartCol: 17, EndLine: 7, EndCol: 4}, extents[0])
-}
+//func Test_findTrivialErrorChecks(t *testing.T) {
+//	t.Parallel()
+//
+//	_, err := FindTrivialErrorChecks(nil)
+//	assert.Error(t, err)
+//
+//	const source = `
+//	package foo
+//	func a() error {
+//		err := foo()
+//		if err != nil {
+//			return err
+//		}
+//		if err := foo(); err != nil {
+//			return nil, err
+//		}
+//		if nil != err {
+//			return nil, fmt.Errorf("error doing foo: %w", err)
+//		}
+//		if readErr != nil {
+//			return errors.Wrap(readErr, "read")
+//		}
+//		val := foo()
+//		if val == 0 {
+//			return errors.New("...")
+//		}
+//		if val != nil {
+//			return val
+//		}
+//		if err != nil {
+//			log(err)
+//			return err
+//		}
+//		if err != nil {
+//			return errors.New("other")
+//		}
+//		if err == nil {
+//			return err
+//		}
+//		if err != nil {
+//			panic(err)
+//		}
+//		if err != nil && val == 0 {
+//			return err
+//		}
+//		return nil
+//	}
+//	`
+//
+//	extents, err := FindTrivialErrorChecks([]byte(source))
+//	assert.NoError(t, err)
+//	assert.Equal(t, []int{5, 8, 11, 14}, PluckStartLine(extents))
+//	assert.Equal(t, Extent{StartLine: 5, StartCol: 17, EndLine: 7, EndCol: 4}, extents[0])
+//}

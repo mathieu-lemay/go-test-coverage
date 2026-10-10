@@ -93,6 +93,12 @@ func ignored() (interface{}, error) {
 	}
 	return nil, nil
 }
+func foo() error {
+	return nil
+}
+func bar() int {
+	return 0
+}
 `),
 		0o600))
 
