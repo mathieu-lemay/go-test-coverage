@@ -339,6 +339,10 @@ func Test_sumCoverage(t *testing.T) {
 
 //nolint:paralleltest // This test is not parallel because it modifies the package cache.
 func Test_findTrivialErrorChecks(t *testing.T) {
+	if testing.Short() {
+		return
+	}
+
 	ResetPackagesCache()
 
 	dir := t.TempDir()

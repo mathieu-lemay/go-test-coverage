@@ -67,6 +67,10 @@ example.com/test/ignored.go:2.1,3.1 1 0
 }
 
 func TestGenerateCoverageStats_TrivialErrorsIgnored(t *testing.T) {
+	if testing.Short() {
+		return
+	}
+
 	t.Parallel()
 
 	ResetPackagesCache()
